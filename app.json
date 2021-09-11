@@ -46,7 +46,10 @@
         "SUDO_USERS": {
             "description": "list of user ids to be added to sudo member list",
             "required": true
-        }
+        },
+        "COMMAND_PREFIXES": {
+            "description": "/",
+            "required": true
     },
     "addons": [],
     "buildpacks": [

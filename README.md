@@ -26,11 +26,11 @@ A Advanced Anime Theme VC Video Player created for playing vidio in the voice ch
   
   
 #### Admins only.
-- `/userbotjoin` - invite assistant to your chat
-- `/userbotleave` - remove assistant from your chat
+- `/join` - invite assistant to your chat
+- `/leave` - remove assistant from your chat
 
 ### Commands for Sudo Users ⚔️
-- `/userbotleaveall` - remove assistant from all chats
+- `/leaveall` - remove assistant from all chats
 
 # To Do
 ### Add User Info Command

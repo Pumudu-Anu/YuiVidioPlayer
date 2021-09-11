@@ -50,6 +50,7 @@
         "COMMAND_PREFIXES": {
             "description": "/",
             "required": true
+           }
     },
     "addons": [],
     "buildpacks": [

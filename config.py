@@ -1,11 +1,17 @@
-import os
+from os import path, getenv
+from dotenv import load_dotenv
 
-API_ID = int(os.getenv("API_ID", "6"))
-API_HASH = os.getenv("API_HASH", "eb06d4abfb49dc3eeb1aeb98ae0f581e")
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-SESSION_NAME = os.getenv("SESSION_NAME")
-ADMIN = os.getenv("ADMIN")
-DB_URL = os.getenv("DB_URL")
-DB_NAME = os.getenv("DB_NAME")
+if path.exists("local.env"):
+    load_dotenv("local.env")
+
+load_dotenv()
+admins = {}
+BOT_TOKEN = getenv("BOT_TOKEN", None)
+API_ID = int(getenv("API_ID", "6"))
+API_HASH = getenv("API_HASH", "eb06d4abfb49dc3eeb1aeb98ae0f581e")
+SESSION_NAME = getenv("SESSION_NAME", None)
 SUDO_USERS = list(map(int, getenv("SUDO_USERS").split()))
-BOT_USERNAME = getenv("BOT_USERNAME", "YuiVidioPlayer_bot")
+DB_URL = getenv("DB_URL", "your url)
+DB_NAME = getenv("DB_NAME", "my")
+BOT_USERNAME = getenv("BOT_USERNAME", "your username")
+COMMAND_PREFIXES = list(getenv("COMMAND_PREFIXES", "/ ! .").split())

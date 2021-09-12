@@ -39,9 +39,9 @@ def youtube(url: str):
         info = yt.extract_info(url, download=False)
         return info['url'], info['title']
     except ExtractorError: # do whatever
-        return 
+        return None, None
     except Exception:
-        return
+        return None, None
 
 async def leave_call(chat_id: int):
     process = FFMPEG_PROCESSES.get(chat_id)

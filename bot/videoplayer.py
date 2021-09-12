@@ -36,7 +36,7 @@ def youtube(url: str):
         params = {"format": "best[height=?480]/best", "noplaylist": True}
         yt = YoutubeDL(params)
         info = yt.extract_info(url, download=False)
-        return info['url']
+        return info['url'], info['title']
     except ExtractorError: # do whatever
         return 
     except Exception:
@@ -53,7 +53,7 @@ async def startvideo(client, m: Message):
             livelink = m.text.split(None, 1)[1]
             chat_id = m.chat.id
             try:
-                livelink = await asyncio.wait_for(
+                livelink, title = await asyncio.wait_for(
                     app.loop.run_in_executor(
                         None,
                         lambda : youtube(livelink)
@@ -94,7 +94,10 @@ async def startvideo(client, m: Message):
                     ),
                     stream_type=StreamType().local_stream,
                 )
-                await msg.edit("💡 **Video streaming started!**\n\n» **join to video chat on the top to watch the video.**")
+                await msg.edit(
+                    "💡 **Video streaming started!**\n"
+                    f"**Currently Playing**: {title}\n"
+                    "\n» **join to video chat on the top to watch the video.**")
                 await idle()
             except Exception as e:
                 await msg.edit(f"🚫 **error** | `{e}`")

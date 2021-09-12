@@ -4,6 +4,7 @@ import subprocess
 from pytgcalls import idle
 from pytgcalls import PyTgCalls
 from pytgcalls import StreamType
+from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioParameters
 from pytgcalls.types.input_stream import InputAudioStream
 from pytgcalls.types.input_stream import InputVideoStream
@@ -42,7 +43,20 @@ def youtube(url: str):
     except Exception:
         return
 
-
+async def leave_call(chat_id: int):
+    process = FFMPEG_PROCESSES.get(chat_id)
+    if process:
+        try:
+            process.send_signal(SIGINT)
+            await asyncio.sleep(3)
+        except Exception as e:
+            print(e)
+            pass
+    try:
+        await call_py.leave_group_call(chat_id)
+    except Exception as e:
+        print(f"Errors while leaving call - {e}")
+        
 @Client.on_message(command(["play", f"play@{BOT_USERNAME}"]) & filters.group & ~filters.edited)
 async def startvideo(client, m: Message):
     replied = m.reply_to_message
@@ -151,7 +165,13 @@ async def stopvideo(client, m: Message):
                 await asyncio.sleep(3)
             except Exception as e:
                 print(e)
+                pass
         await call_py.leave_group_call(chat_id)
         await m.reply("✅ **Disconnected from vc !**")
     except Exception as e:
         await m.reply(f"🚫 **Error** | `{e}`")
+
+@call_py.on_stream_end()
+async def handler(client: PyTgCalls, update: Update):
+    chat_id = update.chat.id
+    await leave_call(chat_id)
